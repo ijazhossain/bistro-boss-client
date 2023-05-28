@@ -1,9 +1,42 @@
 import { FaTrash } from "react-icons/fa";
 import useCart from "../../../hooks/useCart";
+import Swal from "sweetalert2";
 
 const MyCart = () => {
-    const [cart] = useCart();
-    const totalPrice = cart.reduce((sum, item) => sum + item.price, 0)
+    const [cart, refetch] = useCart();
+    const totalPrice = cart.reduce((sum, item) => sum + item.price, 0);
+    const handleDelete = id => {
+        console.log(id);
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch(`http://localhost:5000/carts/${id}`, {
+                    method: 'DELETE',
+
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        console.log(data);
+                        if (data.deletedCount > 0) {
+                            refetch();
+                            Swal.fire(
+                                'Deleted!',
+                                'Your file has been deleted.',
+                                'success'
+                            )
+                        }
+                    })
+
+            }
+        })
+    }
     return (
         <div className="w-full">
             <div className="flex items-center justify-evenly w-full mb-12">
@@ -47,7 +80,7 @@ const MyCart = () => {
                                 </td>
                                 <td className="text-end">${item.price}</td>
                                 <th className="text-end">
-                                    <button className="btn btn-ghost btn-lg bg-[#B91C1C] text-white"><FaTrash className=""></FaTrash></button>
+                                    <button onClick={() => handleDelete(item._id)} className="btn btn-ghost btn-lg bg-[#B91C1C] text-white"><FaTrash className=""></FaTrash></button>
                                 </th>
                             </tr>)
                         }
