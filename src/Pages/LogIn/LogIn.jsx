@@ -1,4 +1,3 @@
-
 import { useContext, useEffect, useState } from 'react';
 import { loadCaptchaEnginge, LoadCanvasTemplate, validateCaptcha } from 'react-simple-captcha';
 import { AuthContext } from '../../providers/AuthProvider';
@@ -77,8 +76,9 @@ const LogIn = () => {
                             <input onBlur={handleValidateCaptcha} type="text" name="captcha" placeholder="Type the text above" className="input input-bordered" />
 
                         </div>
+                        {/* Todo remove disabled  */}
                         <div className="form-control mt-6">
-                            <input disabled={disabled} type="submit" className="btn btn-primary" value="Login" />
+                            <input disabled={false} type="submit" className="btn btn-primary" value="Login" />
                         </div>
                     </form>
                     <p className="px-12 pb-8"><small>New to Bistro! <Link className="text-primary" to="/register">Sign up</Link></small></p>

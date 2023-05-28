@@ -1,3 +1,18 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* .drawer-content {
+    @apply overflow-y-scroll
+} */
+.drawer-side {
+    @apply bg-[#D1A054]
+}
+
+.drawer-side a.active {
+    color: white;
+}
+
+.drawer-side a {
+    background-color: transparent;
+}
