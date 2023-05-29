@@ -38,13 +38,13 @@ const MyCart = () => {
         })
     }
     return (
-        <div className="w-full">
+        <div className="w-full overflow-x-auto">
             <div className="flex items-center justify-evenly w-full mb-12">
                 <h3 className="text-3xl">Total Order:{cart.length} </h3>
                 <h3 className="text-3xl">Total Price: ${totalPrice}</h3>
                 <button className="btn btn-warning btn-xs">pay</button>
             </div>
-            <div className="overflow-x-auto w-full">
+            <div className=" w-full">
                 <table className="table w-full">
                     {/* head */}
                     <thead>

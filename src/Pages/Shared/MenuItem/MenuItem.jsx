@@ -1,5 +1,5 @@
 const MenuItem = ({ menuItem }) => {
-    console.log(menuItem);
+    // console.log(menuItem);
     // eslint-disable-next-line no-unused-vars
     const { _id, price, name, image, recipe } = menuItem;
     return (

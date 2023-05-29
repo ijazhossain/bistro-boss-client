@@ -1,17 +1,45 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useContext } from "react";
 import { AuthContext } from "../../providers/AuthProvider";
+import SocialLogIn from "../../components/SocialLogin/SocialLogIn";
+import Swal from "sweetalert2";
 
 const SignUp = () => {
-    const { createUser } = useContext(AuthContext);
+    const { createUser, updateUserProfile } = useContext(AuthContext);
     const { register, handleSubmit, formState: { errors } } = useForm();
+    const navigate = useNavigate();
+
     const onSubmit = data => {
         console.log(data)
         createUser(data.email, data.password)
             .then(result => {
                 const newUser = result.user;
                 console.log(newUser);
+                updateUserProfile(data.name, data.photoUrl)
+                    .then(() => {
+                        const savedUser = { name: data.name, email: data.email }
+                        fetch('http://localhost:5000/users', {
+                            method: 'POST',
+                            headers: { 'content-type': 'application/json' },
+                            body: JSON.stringify(savedUser)
+                        })
+                            .then(res => res.json())
+                            .then(data => {
+                                if (data.insertedId) {
+                                    Swal.fire({
+                                        position: 'top-end',
+                                        icon: 'success',
+                                        title: 'User created successfully.',
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    });
+                                    navigate('/')
+                                }
+                            })
+
+
+                    })
             }).catch(error => {
                 console.log(error.message);
             })
@@ -34,9 +62,16 @@ const SignUp = () => {
                         </div>
                         <div className="form-control">
                             <label className="label">
+                                <span className="label-text">PhotoUrl</span>
+                            </label>
+                            <input type="text" {...register("photoUrl", { required: true })} placeholder="Enter your link" className="input input-bordered" />
+                            {errors.name && <span>This field is required</span>}
+                        </div>
+                        <div className="form-control">
+                            <label className="label">
                                 <span className="label-text">Email</span>
                             </label>
-                            <input type="email" {...register("email")} name="email" placeholder="email" className="input input-bordered" />
+                            <input type="email" {...register("email", { required: true })} name="email" placeholder="email" className="input input-bordered" />
                         </div>
                         <div className="form-control">
                             <label className="label">
@@ -50,17 +85,13 @@ const SignUp = () => {
                             })} name="password" placeholder="password" className="input input-bordered" />
                             {errors.password?.type === 'minLength' && <p role="alert">Password is must 6 or more character long </p>}
                             {errors.password?.type === 'pattern' && <p role="alert">Password must contains one number, one small and capital letter and a special character </p>}
-
-
-
                         </div>
-
-
                         <div className="form-control mt-6">
                             <input type="submit" className="btn btn-primary" value="Sign up" />
                         </div>
                     </form>
                     <p className="px-12 pb-8"><small >Already have an account? <Link className="text-primary" to="/login">Login</Link></small></p>
+                    <SocialLogIn></SocialLogIn>
                 </div>
             </div>
         </div>

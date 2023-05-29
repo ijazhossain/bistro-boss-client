@@ -5,9 +5,9 @@
 /* .drawer-content {
     @apply overflow-y-scroll
 } */
-.drawer-side {
+/* .drawer-side {
     @apply bg-[#D1A054]
-}
+} */
 
 .drawer-side a.active {
     color: white;

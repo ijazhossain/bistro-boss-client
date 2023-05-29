@@ -3,9 +3,10 @@ import { loadCaptchaEnginge, LoadCanvasTemplate, validateCaptcha } from 'react-s
 import { AuthContext } from '../../providers/AuthProvider';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import SocialLogIn from '../../components/SocialLogin/SocialLogIn';
 const LogIn = () => {
-    const { user, logIn } = useContext(AuthContext);
-    console.log(user);
+    const { logIn } = useContext(AuthContext);
+
     const [disabled, setDisabled] = useState(true)
     const navigate = useNavigate();
     const location = useLocation();
@@ -82,6 +83,7 @@ const LogIn = () => {
                         </div>
                     </form>
                     <p className="px-12 pb-8"><small>New to Bistro! <Link className="text-primary" to="/register">Sign up</Link></small></p>
+                    <SocialLogIn></SocialLogIn>
                 </div>
             </div>
         </div>

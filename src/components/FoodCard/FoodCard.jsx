@@ -42,7 +42,7 @@ const FoodCard = ({ item }) => {
                 })
         } else {
             Swal.fire({
-                title: 'You ave to login first',
+                title: 'You have to login first',
                 text: "",
                 icon: 'warning',
                 showCancelButton: true,
