@@ -2,6 +2,7 @@ import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWith
 import { app } from "../firebase/firebase.config";
 import { createContext, useEffect, useState } from "react";
 import { GoogleAuthProvider } from "firebase/auth";
+import axios from "axios";
 const auth = getAuth(app);
 export const AuthContext = createContext(null)
 const provider = new GoogleAuthProvider();
@@ -41,6 +42,17 @@ const AuthProvider = ({ children }) => {
         const unsubscribe = onAuthStateChanged(auth, currentUser => {
             console.log('on auth state changed', currentUser);
             setUser(currentUser);
+            // get and set token
+            if (currentUser) {
+                axios.post('http://localhost:5000/jwt', { email: currentUser.email })
+                    .then(data => {
+                        console.log(data.data.token);
+                        localStorage.setItem('bistro-access-token', data.data.token)
+                    })
+            } else {
+                localStorage.removeItem('bistro-access-token')
+            }
+
             setLoading(false);
             return () => {
                 return unsubscribe()
