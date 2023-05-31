@@ -29,15 +29,7 @@ const AuthProvider = ({ children }) => {
     }
 
 
-    const authInfo = {
-        user,
-        loading,
-        createUser,
-        logIn,
-        logOut,
-        googleSignIn,
-        updateUserProfile
-    }
+
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, currentUser => {
             console.log('on auth state changed', currentUser);
@@ -47,13 +39,14 @@ const AuthProvider = ({ children }) => {
                 axios.post('http://localhost:5000/jwt', { email: currentUser.email })
                     .then(data => {
                         console.log(data.data.token);
-                        localStorage.setItem('bistro-access-token', data.data.token)
+                        localStorage.setItem('bistro-access-token', data.data.token);
+                        setLoading(false);
                     })
             } else {
                 localStorage.removeItem('bistro-access-token')
             }
 
-            setLoading(false);
+
             return () => {
                 return unsubscribe()
             }
@@ -61,6 +54,15 @@ const AuthProvider = ({ children }) => {
 
         })
     }, [])
+    const authInfo = {
+        user,
+        loading,
+        createUser,
+        logIn,
+        logOut,
+        googleSignIn,
+        updateUserProfile
+    }
     return (
         <AuthContext.Provider value={authInfo}>
             {children}
