@@ -6,7 +6,7 @@ import useAdmin from "../hooks/useAdmin";
 const DashBoard = () => {
     const [cart] = useCart();
     const [isAdmin] = useAdmin();
-    console.log('is admin ex', isAdmin);
+    // console.log('is admin ex', isAdmin);
     return (
         <div className="drawer drawer-mobile">
             <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
